@@ -36,7 +36,7 @@
   <li><p><b>2.</b> Add slider to your carousel on button "add slider"</p></li>
   <li><p><b>3.</b> set photo and content to every slider</p></li>
 <li><p><b>4.</b> Config settings on carousel </p></li>
-<li><p><b>5.</b> put <code> &#60;?php Theme::plugins('runCarousel');?&#62;</code> on your template </p></li>
+<li><p><b>5.</b> put <code> &#60;?php Theme::plugins('runCarousel');?&#62;</code> on your template  or use "add carousel" button on edit page</p></li>
 </ul>
 
 </div>
