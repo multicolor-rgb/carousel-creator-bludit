@@ -11,7 +11,7 @@ class carouselCreator extends Plugin {
          'height' => '450px',
          'fog' => '0.2',
          'autotimer' => '3000',
-        
+         'arrow' =>'0',
        );
 
      $this->customHooks = array(
@@ -28,27 +28,10 @@ class carouselCreator extends Plugin {
  
     $html = '
 
-    <div class="bg-dark text-light col-md-12 my-3 py-3 my-3 d-block border">
-    <h4>Config</h4>
-
-    <p>Time between next slider, if 0 -autoplay disable (milliseconds)</p>
-    <input name="autotimer"  type="text" class="form-control autotimer"  value="'.$this->getValue('autotimer').'" >
-    <br>
-    <p>Darkens the image below the text ( 0 - 1 example: 0.2)</p>
-    <input name="fog" type="text"   value="'.$this->getValue('fog').'" >
-    <br>
-    <p>Slider height in px or vh (example 450px)</p>
-    <input name="height"  type="text"  value="'.$this->getValue('height').'" >
-    
 
 
-    <br>
-    </div>
-    
-    
-    
 
-
+ 
 <div class="bg-light col-md-12 my-3 py-3 d-block text-center border">
       
 <p class="lead">buy me ☕ if you want saw new plugins:)  </p>
@@ -58,6 +41,9 @@ class carouselCreator extends Plugin {
 </a>
 
 </div> ';
+
+
+
 
     return $html;
 
@@ -73,11 +59,12 @@ class carouselCreator extends Plugin {
         $carouselList = array();
         $image = $_POST['carouselimage'];
         $content = $_POST['carouselcontent'];
+        $carouseltitle = $_POST['carouseltitle'];
 
    
 
       foreach ($content as $key => $value){
-    array_push($carouselList,array('image'=>$image[$key],'content'=>$content[$key]));
+    array_push($carouselList,array('image'=>$image[$key],'content'=>$content[$key],'carouseltitle'=>$carouseltitle[$key]));
     $jser = json_encode($carouselList,true);
     file_put_contents($this->phpPath().'sliders.json',$jser);
     };
@@ -102,8 +89,16 @@ class carouselCreator extends Plugin {
         }
         
         if(empty($errors)==true){
-           move_uploaded_file($file_tmp,$this->phpPath()."img/".$file_name);
-           echo "Success";
+
+
+          $folderimg = PATH_UPLOADS."carouselCreator/";
+          $chmod_mode    = 0755;
+          $folder_exists = file_exists($folderimg) || mkdir($folderimg, $chmod_mode);
+ 
+          if($folder_exists){
+            move_uploaded_file($file_tmp,$folderimg.$file_name);
+          }
+        
         }else{
            print_r($errors);
         }
@@ -121,12 +116,14 @@ class carouselCreator extends Plugin {
  
     public function siteBodyEnd(){
  
+      include($this->phpPath().'php/tinyScript.php');
       echo '<script src="'.$this->domainPath().'js/swipe.min.js"></script>';
       include($this->phpPath().'php/carouselSettings.php');
-
+    
  
 
    }
+
 
 
 
@@ -137,7 +134,7 @@ class carouselCreator extends Plugin {
  
       echo '<style>.slider-item{ height:'.$this->getValue('height').';} .slider-fog{background:rgba(0,0,0,'.$this->getValue('fog').');}</style>';
 
-$filecontent = file_get_contents($this->domainPath().'sliders.json');
+$filecontent = file_get_contents($this->phpPath().'sliders.json');
 $resultMe = json_decode($filecontent);
  
  
@@ -161,9 +158,49 @@ echo'<div class="slider-item-content">'.$res->content.'</div>';
 
   };
 
-    echo '</div></div><button class="slider-prev" ><img src="'.$this->domainPath().'images/left.svg"></button>';
-    echo '<button class="slider-next" ><img src="'.$this->domainPath().'images/right.svg"></button></div>';
+    echo '</div></div><button class="slider-prev" ><img src="'.$this->domainPath().'images/left'.$this->getValue('arrow').'.svg"></button>';
+    echo '<button class="slider-next" ><img src="'.$this->domainPath().'images/right'.$this->getValue('arrow').'.svg"></button></div>';
  
+   }
+
+
+
+
+   public function adminBodyEnd(){
+
+    $html = "
+    
+    <script>
+
+window.addEventListener('load',()=>{
+
+  if(document.querySelector('#jsbuttonPreview')!==null){
+document.querySelector('#jsbuttonPreview').insertAdjacentHTML('afterEnd',`<button class='btn btn-sm btn-danger ml-2 add-carousel'>add carousel</button>`);
+
+
+document.querySelector('.add-carousel').addEventListener('click',(e)=>{
+e.preventDefault();
+ let value =`
+ <div class='carousel-replace'><div style='width:100%;height:300px;background:#fafafa;border:solid 1px #ddd;display:flex;align-items:center;justify-content:center;'>
+ Carousel
+ </div></div>
+ <br>
+ `;
+
+  tinymce.activeEditor.execCommand('mceInsertContent', false, value);
+
+
+})
+
+
+  }
+
+  })
+</script>
+   ";
+
+    return $html;
+
    }
  
 
