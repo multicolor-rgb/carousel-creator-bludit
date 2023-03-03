@@ -14,11 +14,18 @@
   transitionEnd: function(index, element) {}
     });
 
+<?php if($this->getValue('arrow')!=='2') :?>
+
+
 
           prevBtn = document.querySelector('.slider-prev');
           nextBtn = document.querySelector('.slider-next');
       nextBtn.onclick = mySwipe.next;
      prevBtn.onclick = mySwipe.prev;
+
+<?php endif;?>
+
+
    }
 
  
