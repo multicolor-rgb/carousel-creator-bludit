@@ -32,9 +32,8 @@
 
  <script>
    document.querySelectorAll('.photo').forEach(x => {
-
-     x.setAttribute('href', window.location.origin + '/bl-content/uploads/carouselCreator/' + x.getAttribute('href'))
-     x.querySelector('img').setAttribute('src', window.location.origin + '/bl-content/uploads/carouselCreator/' + x.querySelector('img').getAttribute('src'));
+  x.setAttribute('href', window.location.origin + '/bl-content/uploads/carouselCreator/' + x.getAttribute('href'))
+ x.querySelector('img').setAttribute('src', window.location.origin + '/bl-content/uploads/carouselCreator/' + x.querySelector('img').getAttribute('src'));
 
    })
 
@@ -47,7 +46,13 @@
      let linkerNew = linker;
 
 
+if('<?php echo $_GET['class'];?>'=='takephoto'){
      window.opener.document.querySelectorAll('input[name="carouselimage[]"]')[<?php echo $_GET['index'];?>].setAttribute('value',linker);
+
+}else{
+       window.opener.document.querySelectorAll('input.newimagecar')[<?php echo $_GET['index'];?>].setAttribute('value',linker);
+}
+
 
  
      window.close();

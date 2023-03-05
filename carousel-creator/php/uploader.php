@@ -33,6 +33,9 @@ justify-content: center;
  <h3>Upload photo</h3>
  <br>
  
+ <a href="<?php echo DOMAIN_ADMIN.'plugin/carouselcreator?editfile';?>" class="btn btn-primary">Edit file</a>
+ 
+
 <form action="#" class="dropzone dz-upload" method="post" enctype="multipart/form-data">
   <input type="file" name="file[]" style="display:none;" />
   <input type="hidden" id="jstokenCSRF" name="tokenCSRF" value="<?php echo $tokenCSRF;?>">

@@ -31,6 +31,10 @@ class carouselCreator extends Plugin {
 
   include($this->phpPath().'php/imagebrowser.php');
 
+}elseif(isset($_GET['editfile'])){
+
+  include($this->phpPath().'php/filebrowser.php');
+
 }else{
 
 include($this->phpPath().'php/list.php');
@@ -74,7 +78,17 @@ echo '<div class="bg-light col-md-12 my-3 py-3 d-block text-center border">
 
       $ds   = DIRECTORY_SEPARATOR;
 
-      $storeFolder = PATH_UPLOADS . 'carouselCreator/';
+$storeFolder = PATH_UPLOADS.'carouselCreator/';
+        $chmod = 0755;
+
+
+       if (!file_exists($storeFolder)){
+
+                mkdir($storeFolder, $chmod, true);
+
+      };
+
+
 
       if (!empty($_FILES)){
 
@@ -85,7 +99,7 @@ echo '<div class="bg-light col-md-12 my-3 py-3 d-block text-center border">
 
           $names = $_FILES['file']['name'];
           $noSpaceName = str_replace(' ','-',pathinfo($_FILES['file']['name'])['filename']);
-          $newName = preg_replace('/[^0-9a-z\-]+/', '', $noSpaceName);
+      $newName = preg_replace('/[^0-9a-zA-Z-]+/', '', $noSpaceName); 
 
           $targetFile =  $targetPath .$newName.'.'.pathinfo($_FILES['file']['name'])['extension'];
           move_uploaded_file($tempFile, $targetFile);
@@ -111,6 +125,7 @@ if(isset($_POST['submit'])){
      $autotimer = $_POST['autotimer'];
      $fog= $_POST['fog'];
      $height = $_POST['height'];
+     $width = $_POST['width'];
      $arrow = $_POST['arrow'];
 
 
@@ -118,7 +133,7 @@ if(isset($_POST['submit'])){
     array_push($carouselList['sliderItem'],array('image'=>$image[$key],'content'=>$content[$key],'carouseltitle'=>$carouseltitle[$key]));
 
 
-    array_push($carouselList['settings'],array('autotimer'=>$autotimer,'fog'=>$fog,'height'=>$height,'arrow'=>$arrow));
+    array_push($carouselList['settings'],array('autotimer'=>$autotimer,'fog'=>$fog,'height'=>$height,'width'=>$width,'arrow'=>$arrow));
 
 
 
@@ -130,6 +145,19 @@ if(isset($_POST['submit'])){
  };
        
 		
+
+
+if(isset($_POST['delthisimage'])){
+
+$imgs = $_POST['delphoto'];
+
+foreach($imgs as $items){
+unlink(PATH_UPLOADS. 'carouselCreator/'.$items);
+};
+
+};
+
+
     }
 
 
@@ -173,7 +201,7 @@ $resultMe = json_decode($filecontent);
 
 $carousel = '';
 
-  $carousel .= '<div class="slider-container">';
+  $carousel .= '<div class="slider-container" style="width:'.$resultMe->settings[0]->width.'">';
 $carousel .=  '<div id="slider'.$name.'" class="swipe">';
 $carousel .=  '<div class="swipe-wrap">';
 
@@ -182,7 +210,8 @@ if(isset($resultMe)){
 
 foreach($resultMe->sliderItem as $res){
 
-  $carousel .= '<div class="slider-item" style="background:url('.$res->image.');background-size:cover;background-position:center center;height:'.$resultMe->settings[0]->height.';">';
+  $carousel .= '<div class="slider-item" style="background:url('.$res->image.');background-size:cover;background-position:center center;width:'.$resultMe->settings[0]->width.';
+  height:'.$resultMe->settings[0]->height.';">';
   $carousel .= '<div class="slider-fog" style="background:rgba(0,0,0,'.$resultMe->settings[0]->fog.');">';
 $carousel .= '<div class="slider-item-content">'.$res->content.'</div>';
  $carousel .= '</div>';
@@ -262,7 +291,7 @@ $resultMe = json_decode($filecontent);
 
 $carousel = '';
 
-  $carousel .= '<div class="slider-container">';
+  $carousel .= '<div class="slider-container" style="width:'.$resultMe->settings[0]->width.'">';
 $carousel .=  '<div id="slider'.$name.'" class="swipe">';
 $carousel .=  '<div class="swipe-wrap">';
 
@@ -271,8 +300,11 @@ if(isset($resultMe)){
 
 foreach($resultMe->sliderItem as $res){
 
-  $carousel .= '<div class="slider-item" style="background:url('.$res->image.');background-size:cover;background-position:center center;height:'.$resultMe->settings[0]->height.';">';
-  $carousel .= '<div class="slider-fog" style="background:rgba(0,0,0,'.$resultMe->settings[0]->fog.');">';
+  $carousel .= '<div class="slider-item" style="background:url('.$res->image.');background-size:cover;background-position:center center;
+  height:'.$resultMe->settings[0]->height.';">';
+
+
+ $carousel .= '<div class="slider-fog" style="background:rgba(0,0,0,'.$resultMe->settings[0]->fog.');">';
 $carousel .= '<div class="slider-item-content">'.$res->content.'</div>';
  $carousel .= '</div>';
  $carousel .= '</div>';

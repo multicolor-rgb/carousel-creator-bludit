@@ -237,7 +237,12 @@ $jsonSettings = json_decode($filecontent);
 <p>Darkens the image below the text ( 0 - 1 example: 0.2)</p>
 <input name="fog" type="text"    class="form-control" value="<?php echo @$jsonSettings->settings[0]->fog ?? '0.2';?>" >
 <br>
-<p>Slider height in px or vh (example 450px)</p>
+
+<p>Slider width(example 450px ord 20% or 20vw)</p>
+
+<input name="width"  class="form-control" type="text"  value="<?php echo @$jsonSettings->settings[0]->width ?? '100%';?>" >
+<br>
+<p>Slider height  (example 450px or 20% or 20vh)</p>
 <input name="height"  class="form-control" type="text"  value="<?php echo @$jsonSettings->settings[0]->height ?? '450px';?>" >
 <br>
 <p>Arrow style</p>
@@ -326,7 +331,7 @@ document.querySelectorAll('.takephoto').forEach((item,index)=>{
     item.addEventListener('click',(e)=>{
         e.preventDefault();
 e.preventDefault();
-window.open('<?php echo DOMAIN.HTML_PATH_ADMIN_ROOT;?>plugin/carouselcreator?&filebrowser&index='+index,"", "width=1200,height=400");
+window.open('<?php echo DOMAIN.HTML_PATH_ADMIN_ROOT;?>plugin/carouselcreator?&filebrowser&class=takephoto&index='+index,"", "width=1200,height=400");
  
     })
 
@@ -380,63 +385,6 @@ document
 
 
 
-    document.querySelector('.helpcontent').style.display="none";
-    document.querySelector('.config').style.display="none";
-   
-
-
-    const options = document.querySelector('.options');
-
-    options.querySelector('.help').addEventListener('click',(z)=>{
-
-        z.preventDefault();
-
-        document.querySelector('.config').style.display="none";
-        document.querySelector('.uploader').style.display="none";
-
-        document.querySelector('.helpcontent').style.display="block";
-        document.querySelector('#sliderlist').style.display="none";
-
-      });
-
-
-      options.querySelector('.settings').addEventListener('click',(z)=>{
-
-z.preventDefault();
-
-document.querySelector('.config').style.display="block";
-document.querySelector('.uploader').style.display="none";
-
-document.querySelector('.helpcontent').style.display="none";
-document.querySelector('#sliderlist').style.display="none";
-
-});
-
-
-options.querySelector('.sliderbtn').addEventListener('click',(z)=>{
-
-z.preventDefault();
-
-document.querySelector('.config').style.display="none";
-document.querySelector('.uploader').style.display="block";
-
-document.querySelector('.helpcontent').style.display="none";
-document.querySelector('#sliderlist').style.display="block";
-
-});
-
-
-document.querySelector('form').setAttribute('enctype','multipart/form-data');
-
-
-
-
-
-
-
-
-
-
 
  
 
@@ -455,7 +403,7 @@ document
  <button class="closethis btn btn-danger btn-sm">Delete ❌</button>   
 <h4>Carousel item</h4>
 <input class="form-control mb-2 title-car" type="text"  name="carouseltitle[]" placeholder="title slide">
-<input class="form-control mb-2 image-car" type="text"  name="carouselimage[]" placeholder="image url">
+<input class="form-control mb-2 image-car newimagecar" type="text"  name="carouselimage[]" placeholder="image url">
 <button class="takephotos take-${counters} btn-primary my-2 btn">Choose photo 📸</button>
 <button class="editcontent editcon-${counters} btn-success my-2 btn">Edit content📝 </button>
 
@@ -529,7 +477,7 @@ document
 item.addEventListener('click',(e)=>{
     e.preventDefault();
 e.preventDefault();
-window.open('<?php echo DOMAIN.HTML_PATH_ADMIN_ROOT;?>plugin/carouselcreator?&filebrowser&index='+index,"", "width=1200,height=400");
+window.open('<?php echo DOMAIN.HTML_PATH_ADMIN_ROOT;?>plugin/carouselcreator?&filebrowser&class=takephotos&index='+index,"", "width=1200,height=400");
 
 })
 
@@ -538,6 +486,41 @@ window.open('<?php echo DOMAIN.HTML_PATH_ADMIN_ROOT;?>plugin/carouselcreator?&fi
 
 
 
+
+
+document.querySelector('.sliderlist').style.display="block";
+document.querySelector('.helpcontent').style.display="none";
+document.querySelector('.config').style.display="none";
+
+
+document.querySelector('button.settings').addEventListener('click',(e)=>{
+
+e.preventDefault();
+document.querySelector('.config').style.display="block";
+document.querySelector('.sliderlist').style.display="none";
+document.querySelector('.helpcontent').style.display="none";
+
+})
+
+
+document.querySelector('button.help').addEventListener('click',(e)=>{
+
+e.preventDefault();
+document.querySelector('.config').style.display="none";
+document.querySelector('.sliderlist').style.display="none";
+document.querySelector('.helpcontent').style.display="block";
+
+})
+
+
+document.querySelector('button.sliderbtn').addEventListener('click',(e)=>{
+
+e.preventDefault();
+document.querySelector('.config').style.display="none";
+document.querySelector('.sliderlist').style.display="block";
+document.querySelector('.helpcontent').style.display="none";
+
+})
 
 </script>
 
