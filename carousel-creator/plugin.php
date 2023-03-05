@@ -35,6 +35,10 @@ class carouselCreator extends Plugin {
 
   include($this->phpPath().'php/filebrowser.php');
 
+}elseif(isset($_GET['migrator'])){
+
+  include($this->phpPath().'php/migrate.php');
+
 }else{
 
 include($this->phpPath().'php/list.php');
@@ -73,6 +77,33 @@ echo '<div class="bg-light col-md-12 my-3 py-3 d-block text-center border">
 
     public function adminController()
     {
+
+
+
+
+
+
+if(isset($_POST['changeURL'])){
+    foreach(glob($this->phpPath().'/carouselList/*.json')as $file){
+
+        $fileContent = file_get_contents($file);
+    
+     
+        $oldurl = str_replace('/','\/',$_POST['oldurl']);
+        $newurl = str_replace('/','\/',$_POST['newurl']);
+    
+ 
+        $newContent = str_replace([$oldurl, $oldurl.'/'],[$newurl, $newurl.'/'],$fileContent);
+    
+        file_put_contents($file,$newContent);
+    
+    }
+
+    echo '<div class="alert alert-primary">done!</div>';
+        
+};
+
+
 
 
 

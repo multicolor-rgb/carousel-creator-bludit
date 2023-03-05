@@ -9,8 +9,8 @@
 </style>
 
 <button class="alldel btn btn-primary">Select all</button>
+<button class="alldel btn btn-dark" onclick="window.history.go(-1);">Back to uploader</button>
 <hr>
-
 <form method="POST">
   <input type="hidden" id="jstokenCSRF" name="tokenCSRF" value="<?php echo $tokenCSRF;?>">
 

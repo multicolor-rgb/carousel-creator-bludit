@@ -18,6 +18,7 @@
 
 <div class="col-md-12 py-2 px-0 mb-2">
 <a href="<?php echo DOMAIN_ADMIN.'plugin/carouselcreator?addnew';?>" class="btn btn-primary">Add new</a>
+<a href="<?php echo DOMAIN_ADMIN.'plugin/carouselcreator?migrator';?>" class="btn btn-primary">Migrate domain</a>
 </div>
 
 
