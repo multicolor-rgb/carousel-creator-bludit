@@ -32,8 +32,8 @@
 
  <script>
    document.querySelectorAll('.photo').forEach(x => {
-  x.setAttribute('href', window.location.origin + '/bl-content/uploads/carouselCreator/' + x.getAttribute('href'))
- x.querySelector('img').setAttribute('src', window.location.origin + '/bl-content/uploads/carouselCreator/' + x.querySelector('img').getAttribute('src'));
+  x.setAttribute('href', '<?php echo DOMAIN_BASE ;?>' + 'bl-content/uploads/carouselCreator/' + x.getAttribute('href'))
+ x.querySelector('img').setAttribute('src', '<?php echo DOMAIN_BASE ;?>' + 'bl-content/uploads/carouselCreator/' + x.querySelector('img').getAttribute('src'));
 
    })
 
